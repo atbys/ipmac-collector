@@ -27,7 +27,7 @@ func Connect() (*gorm.DB, error) {
 	CONNECT := HOST + " " + PORT + " " + USER + " " + DBNAME + " " + SSLMODE
 
 	db, err := gorm.Open(DBMS, CONNECT)
-	if err != nin {
+	if err != nil {
 		return nil, err
 	}
 
@@ -54,14 +54,14 @@ func GetPortNum(mac string) {
 	params := &gs.GoSNMP{
 		Target:        "192.168.",
 		Port:          161,
-		Version:       g.Version3,
+		Version:       gs.Version3,
 		Timeout:       time.Duration(30) * time.Second,
-		SecurityModel: g.UserSecurityModel,
-		MsgFlags:      g.AuthPriv,
-		SecurityParameters: &g.UsmSecurityParameters{UserName: "user",
-			AuthenticationProtocol:   g.SHA,
+		SecurityModel: gs.UserSecurityModel,
+		MsgFlags:      gs.AuthPriv,
+		SecurityParameters: &gs.UsmSecurityParameters{UserName: "user",
+			AuthenticationProtocol:   gs.SHA,
 			AuthenticationPassphrase: "password",
-			PrivacyProtocol:          g.DES,
+			PrivacyProtocol:          gs.DES,
 			PrivacyPassphrase:        "password",
 		},
 	}
@@ -84,13 +84,13 @@ func GetPortNum(mac string) {
 		// the Value of each variable returned by Get() implements
 		// interface{}. You could do a type switch...
 		switch variable.Type {
-		case g.OctetString:
+		case gs.OctetString:
 			fmt.Printf("string: %s\n", string(variable.Value.([]byte)))
 		default:
 			// ... or often you're just interested in numeric values.
 			// ToBigInt() will return the Value as a BigInt, for plugging
 			// into your calculations.
-			fmt.Printf("number: %d\n", g.ToBigInt(variable.Value))
+			fmt.Printf("number: %d\n", gs.ToBigInt(variable.Value))
 		}
 	}
 }
